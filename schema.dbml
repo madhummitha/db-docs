@@ -29,7 +29,6 @@ Table posts {
   content string
   mediaUrl link (image, audio, video)
   type string
-  visibilityPermission boolean
   createdAt timestamp
   updatedAt timestamp
 }
@@ -97,6 +96,7 @@ Table intranetNewsletter {
   isArchived boolean
   category string
   content string
+  addedBy string
   createdAt timestamp
   updatedAt timestamp
 }
@@ -137,13 +137,13 @@ Ref: users.id < feedback.userId
 
 Table orgCharts {
   id string pk
-  employeeId string 
+  userId string 
   position string
   department string
   reportingTo string 
   contactDetails string
 }
-Ref: users.id < orgCharts.employeeId
+Ref: users.id < orgCharts.userId
 Ref: users.id < orgCharts.reportingTo
 
 Table jobBoard {
