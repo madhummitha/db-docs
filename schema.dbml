@@ -1,0 +1,170 @@
+Project Movate {
+  database_type: 'MySQL'
+  Note: 'This is the schema for Movate .Net API'
+}
+
+Table users {
+  id string pk
+  name string
+  employeeId string
+  team string
+  managerId string
+  phoneNo string
+  email string
+  skills string[]
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table roles {
+  id string pk
+  role enum
+  userId string
+}
+Ref: users.id < roles.userId
+
+Table posts {
+  id string pk
+  addedBy string 
+  content string
+  mediaUrl link (image, audio, video)
+  type string
+  visibilityPermission boolean
+  createdAt timestamp
+  updatedAt timestamp
+}
+Ref: users.id < posts.addedBy
+
+Table postInteractions {
+  id string pk
+  postId string 
+  userId string 
+  action string (like, comment, share)
+  commentText string
+  parentCommentId string
+  createdAt timestamp
+  updatedAt timestamp
+}
+Ref: users.id < postInteractions.userId
+Ref: posts.id < postInteractions.postId
+
+Table dashboard {
+  id string
+  userId string 
+  type string (promotion, bday, anniversay)
+  createdAt timestamp
+  updatedAt timestamp
+}
+Ref: users.id < dashboard.userId
+
+Table documents {
+  id string pk
+  title string
+  fileUrl link
+  category enum
+  addedBy string 
+  createdAt timestamp
+  updatedAt timestamp
+}
+Ref: users.id < documents.addedBy
+
+Table notifications {
+  id string pk
+  userId string 
+  message string
+  type string
+  refId string 
+  isRead boolean
+  priority enum
+  createdAt timestamp
+}
+Ref: users.id < notifications.userId
+Ref: posts.id < notifications.refId
+
+Table wiki {
+  id string pk
+  title string
+  content string
+  category enum
+  addedBy string 
+  createdAt timestamp
+  updatedAt timestamp
+}
+Ref: users.id < wiki.addedBy
+
+Table intranetNewsletter {
+  id string pk
+  isArchived boolean
+  category string
+  content string
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table polls {
+  id string pk
+  title string
+  addedBy string 
+  options string[]
+  status enum
+  startDate timestamp
+  endDate timestamp
+  createdAt timestamp
+  updatedAt timestamp
+}
+Ref: users.id < polls.addedBy
+
+Table pollResponses {
+  id string pk
+  pollId string 
+  addedBy string 
+  responseOption string
+}
+Ref: polls.id < pollResponses.pollId
+Ref: users.id < pollResponses.addedBy
+
+Table feedback {
+  id string pk
+  userId string 
+  title string
+  message string
+  fileUrls string[]
+  status string
+  createdAt timestamp
+  updatedAt timestamp
+}
+Ref: users.id < feedback.userId
+
+Table orgCharts {
+  id string pk
+  employeeId string 
+  position string
+  department string
+  reportingTo string 
+  contactDetails string
+}
+Ref: users.id < orgCharts.employeeId
+Ref: users.id < orgCharts.reportingTo
+
+Table jobBoard {
+  id string pk
+  title string
+  content string
+  department string
+  location string
+  addedBy string 
+  createdAt timestamp
+  updatedAt timestamp
+}
+Ref: users.id < jobBoard.addedBy
+
+Table praise {
+  id string pk
+  addedBy string 
+  receivedBy string 
+  message string
+  createdAt timestamp
+  updatedAt timestamp
+}
+Ref: users.id < praise.addedBy
+Ref: users.id < praise.receivedBy
